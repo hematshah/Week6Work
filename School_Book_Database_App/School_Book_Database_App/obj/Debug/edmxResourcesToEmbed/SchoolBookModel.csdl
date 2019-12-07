@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolBooksDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="SBInventory">
+    <Key>
+      <PropertyRef Name="BookInventoryId" />
+    </Key>
+    <Property Name="BookInventoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Subject" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BookName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ExamBoardAndLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BookType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BookSatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="QuantityInStock" Type="Int32" />
+    <Property Name="Notes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SBOrders" Relationship="Self.FK__SBOrders__BookIn__3B75D760" FromRole="SBInventory" ToRole="SBOrders" />
+  </EntityType>
+  <EntityType Name="SBOrder">
+    <Key>
+      <PropertyRef Name="OrderBooksId" />
+    </Key>
+    <Property Name="OrderBooksId" Type="Int32" Nullable="false" />
+    <Property Name="BookInventoryID" Type="Int32" />
+    <Property Name="Subject" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BookName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ExamBoardAndLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BookType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="QuantityOrdered" Type="Int32" />
+    <Property Name="TotalCostOfBooks" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="DateOrdered" Type="DateTime" Precision="0" />
+    <Property Name="DateOrderRecieved" Type="DateTime" Precision="0" />
+    <Property Name="Notes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SBInventory" Relationship="Self.FK__SBOrders__BookIn__3B75D760" FromRole="SBOrders" ToRole="SBInventory" />
+    <NavigationProperty Name="Students" Relationship="Self.FK__Students__OrderB__3E52440B" FromRole="SBOrders" ToRole="Students" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderBooksID" Type="Int32" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SchoolYear" Type="Int32" />
+    <Property Name="Subjects" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ExamBoardAndLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BooksRecieved" Type="Boolean" />
+    <Property Name="BookStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SBOrder" Relationship="Self.FK__Students__OrderB__3E52440B" FromRole="Students" ToRole="SBOrders" />
+  </EntityType>
+  <Association Name="FK__SBOrders__BookIn__3B75D760">
+    <End Role="SBInventory" Type="Self.SBInventory" Multiplicity="0..1" />
+    <End Role="SBOrders" Type="Self.SBOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SBInventory">
+        <PropertyRef Name="BookInventoryId" />
+      </Principal>
+      <Dependent Role="SBOrders">
+        <PropertyRef Name="BookInventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Students__OrderB__3E52440B">
+    <End Role="SBOrders" Type="Self.SBOrder" Multiplicity="0..1" />
+    <End Role="Students" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SBOrders">
+        <PropertyRef Name="OrderBooksId" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="OrderBooksID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SchoolBooksDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="SBInventories" EntityType="Self.SBInventory" />
+    <EntitySet Name="SBOrders" EntityType="Self.SBOrder" />
+    <EntitySet Name="Students" EntityType="Self.Student" />
+    <AssociationSet Name="FK__SBOrders__BookIn__3B75D760" Association="Self.FK__SBOrders__BookIn__3B75D760">
+      <End Role="SBInventory" EntitySet="SBInventories" />
+      <End Role="SBOrders" EntitySet="SBOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Students__OrderB__3E52440B" Association="Self.FK__Students__OrderB__3E52440B">
+      <End Role="SBOrders" EntitySet="SBOrders" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

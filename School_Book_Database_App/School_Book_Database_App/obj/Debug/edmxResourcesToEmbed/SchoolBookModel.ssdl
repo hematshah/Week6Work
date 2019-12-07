@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolBooksDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="SBInventory">
+    <Key>
+      <PropertyRef Name="BookInventoryId" />
+    </Key>
+    <Property Name="BookInventoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Subject" Type="varchar" MaxLength="50" />
+    <Property Name="BookName" Type="varchar" MaxLength="50" />
+    <Property Name="ExamBoardAndLevel" Type="varchar" MaxLength="50" />
+    <Property Name="BookType" Type="varchar" MaxLength="50" />
+    <Property Name="BookSatus" Type="varchar" MaxLength="50" />
+    <Property Name="QuantityInStock" Type="int" />
+    <Property Name="Notes" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="SBOrders">
+    <Key>
+      <PropertyRef Name="OrderBooksId" />
+    </Key>
+    <Property Name="OrderBooksId" Type="int" Nullable="false" />
+    <Property Name="BookInventoryID" Type="int" />
+    <Property Name="Subject" Type="varchar" MaxLength="50" />
+    <Property Name="BookName" Type="varchar" MaxLength="50" />
+    <Property Name="ExamBoardAndLevel" Type="varchar" MaxLength="50" />
+    <Property Name="BookType" Type="varchar" MaxLength="50" />
+    <Property Name="QuantityOrdered" Type="int" />
+    <Property Name="TotalCostOfBooks" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="DateOrdered" Type="date" />
+    <Property Name="DateOrderRecieved" Type="date" />
+    <Property Name="Notes" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderBooksID" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="SchoolYear" Type="int" />
+    <Property Name="Subjects" Type="varchar" MaxLength="50" />
+    <Property Name="ExamBoardAndLevel" Type="varchar" MaxLength="50" />
+    <Property Name="BooksRecieved" Type="bit" />
+    <Property Name="BookStatus" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__SBOrders__BookIn__3B75D760">
+    <End Role="SBInventory" Type="Self.SBInventory" Multiplicity="0..1" />
+    <End Role="SBOrders" Type="Self.SBOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SBInventory">
+        <PropertyRef Name="BookInventoryId" />
+      </Principal>
+      <Dependent Role="SBOrders">
+        <PropertyRef Name="BookInventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Students__OrderB__3E52440B">
+    <End Role="SBOrders" Type="Self.SBOrders" Multiplicity="0..1" />
+    <End Role="Students" Type="Self.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SBOrders">
+        <PropertyRef Name="OrderBooksId" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="OrderBooksID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SchoolBooksDBModelStoreContainer">
+    <EntitySet Name="SBInventory" EntityType="Self.SBInventory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SBOrders" EntityType="Self.SBOrders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__SBOrders__BookIn__3B75D760" Association="Self.FK__SBOrders__BookIn__3B75D760">
+      <End Role="SBInventory" EntitySet="SBInventory" />
+      <End Role="SBOrders" EntitySet="SBOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Students__OrderB__3E52440B" Association="Self.FK__Students__OrderB__3E52440B">
+      <End Role="SBOrders" EntitySet="SBOrders" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

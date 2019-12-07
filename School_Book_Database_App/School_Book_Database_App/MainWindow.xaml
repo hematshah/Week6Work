@@ -1,0 +1,132 @@
+﻿<Window x:Class="School_Book_Database_App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:School_Book_Database_App"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="270*"/>
+
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="70*"/>
+            <RowDefinition Height="24*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+        </Grid.ColumnDefinitions>
+
+        <TabControl  Background="#b6FFF9" Margin="42,4,4,9" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="10" >
+
+            <TabItem Header="Students" Background="Aqua">
+                <TabPanel x:Name="ViewData" Margin="0,0,-3,3">
+                    <ListView x:Name="listViewStudents" Height="223" Margin="1,4,0,-4" VerticalAlignment="Top" HorizontalAlignment="Left" Width="661" SelectionChanged="ListViewstudentsSelectionChanged"   >
+                        <ListView.View >
+                            <GridView>
+                                <GridViewColumn x:Name="StudentId" Header="ID" Width="30" DisplayMemberBinding="{Binding StudentID}"/>
+                                <GridViewColumn Header="OrderID" Width="90" DisplayMemberBinding="{Binding OrderBooksID}"/>
+                                <GridViewColumn Header="First Name" Width="95" DisplayMemberBinding="{Binding FirstName}"/>
+                                <GridViewColumn Header="Last Name" Width="90" DisplayMemberBinding="{Binding LastName}"/>
+                                <GridViewColumn Header="School Year" Width="90" DisplayMemberBinding="{Binding SchoolYear}"/>
+                                <GridViewColumn Header="Subject(s)" Width="120" DisplayMemberBinding="{Binding Subjects}"/>
+                                <GridViewColumn Header="Exam Board(LV)" Width="120" DisplayMemberBinding="{Binding ExamBoardAndLevel}"/>
+                                <GridViewColumn Header="Books Recieved" Width="90" DisplayMemberBinding="{Binding BooksRecieved}"/>
+                                <GridViewColumn Header=" Book Status" Width="95" DisplayMemberBinding="{Binding BookStatus}"/>
+
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabPanel>
+            </TabItem>
+
+            <TabItem Header="Orders" Background="Aqua">
+                <TabPanel x:Name="Viewing" Margin="0,0,-3,3">
+                    <ListView x:Name="ListviewOrder"  Height="223" Margin="3,4,0,-4" SelectionChanged="ListViewOrdersSelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" Width="30" DisplayMemberBinding="{Binding OrderBooksId}" />
+                                <GridViewColumn Header="InventID" Width="60" DisplayMemberBinding="{Binding BookInventoryID}" />
+                                <GridViewColumn Header="Subject" Width="90" DisplayMemberBinding="{Binding Subject}" />
+                                <GridViewColumn Header="Book Name" Width="95" DisplayMemberBinding="{Binding BookName}" />
+                                <GridViewColumn Header="Board(LV)" Width="120" DisplayMemberBinding="{Binding ExamBoardAndLevel}" />
+                                <GridViewColumn Header="Book Type" Width="90" DisplayMemberBinding="{Binding BookType}" />
+                                <GridViewColumn Header="Qty Ordered" Width="70" DisplayMemberBinding="{Binding QuantityOrdered}" />
+                                <GridViewColumn Header="Total Cost(£)" Width="90" DisplayMemberBinding="{Binding TotalCostOfBooks}" />
+                                <GridViewColumn Header="Order Date" Width="85" DisplayMemberBinding="{Binding DateOrdered}" />
+                                <GridViewColumn Header="Collected" Width="80" DisplayMemberBinding="{Binding DateOrderRecieved}" />
+                                <GridViewColumn Header="Notes" Width="98" DisplayMemberBinding="{Binding Notes}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabPanel>
+            </TabItem>
+
+            <TabItem Header=" Inventory" Background="Aqua">
+                <TabPanel Margin="0,0,-3,3">
+                    <ListView x:Name="ListViewInventory"  Height="223" Margin="3,4,1,-4" SelectionChanged="ListViewInventorySelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" Width="30"  DisplayMemberBinding="{Binding BookInventoryId}" />
+                                <GridViewColumn Header="Subject" Width="60" DisplayMemberBinding="{Binding Subject}" />
+                                <GridViewColumn Header="Book Name" Width="100" DisplayMemberBinding="{Binding BookName}" />
+                                <GridViewColumn Header="ExamBoard(LV)" Width="120" DisplayMemberBinding="{Binding ExamBoardAndLevel}" />
+                                <GridViewColumn Header="Book Type" Width="90" DisplayMemberBinding="{Binding BookType}" />
+                                <GridViewColumn Header="Book Status" Width="80" DisplayMemberBinding="{Binding BookSatus}" />
+                                <GridViewColumn Header="Quantity In Stock" Width="100" DisplayMemberBinding="{Binding QuantityInStock}" />
+                                <GridViewColumn Header="Notes" Width="100" DisplayMemberBinding="{Binding Notes}" />
+
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabPanel>
+            </TabItem>
+        </TabControl>
+
+        <Button Name="AddButton" FontWeight="Bold" Background="ForestGreen" Content="Add" IsEnabled="False" Margin="6,116,39,0" VerticalAlignment="Top" Height="36" Grid.Row="1" Grid.ColumnSpan="2" Click="AddButton_Click"/>
+        <Button Name="EditButton" FontWeight="Bold" Background="LightGoldenrodYellow" Content="Edit" IsEnabled="False" Margin="6,167,39,0" VerticalAlignment="Top" Height="36" Grid.Row="1" Grid.ColumnSpan="2" Click="EditButton_Click"/>
+        <Button Name="DeleteButton" FontWeight="Bold" Background="Ivory" Content="Delete" IsEnabled="False" Margin="6,220,38,0" VerticalAlignment="Top" Height="36" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <DatePicker x:Name="SelectDate" Margin="6,63,38,0" VerticalAlignment="Top" Height="36" Grid.Row="1" Grid.ColumnSpan="2"/>
+
+        <TextBox x:Name="TextBox1" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="0" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox2" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="1" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox3" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="2" Height="68"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox4" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="3" Height="68"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox5" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="4" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox6" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="5" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox7" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="6" Height="68"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox8" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="7" Height="70"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top" Visibility="Hidden" IsEnabled="False"/>
+        <TextBox x:Name="TextBox9" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="8" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox10" IsReadOnly="True" Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="9" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBox11" IsReadOnly="True" Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="10" Height="68"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+        <ComboBox x:Name="ComboBox8"  Background="BlanchedAlmond" HorizontalContentAlignment="Left" Grid.Column="7" Grid.Row="3" Margin="0,1,0,0" />
+
+        <Label x:Name="Label1" Background="Aquamarine" Content="ID" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70"/>
+        <Label x:Name="Label2" Background="Aquamarine" Content="Name" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70" />
+        <Label x:Name="Label3" Background="Aquamarine" Content="School Year" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70"/>
+        <Label x:Name="Label4" Background="Aquamarine" Content="Subject(s)" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70"/>
+        <Label x:Name="Label5" Background="Aquamarine" Content="ExamBoard" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70"/>
+        <Label x:Name="Label6" Background="Aquamarine" Content="Quantity" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70"/>
+        <Label x:Name="Label7" Background="Aquamarine" Content="Total Cost" Grid.Column="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70"/>
+        <Label x:Name="Label8" Background="Aquamarine" Content="Status" Grid.Column="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70" />
+        <Label x:Name="Label9" Background="Aquamarine" Content=" Ordered" Grid.Column="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70"/>
+        <Label x:Name="Label10" Background="Aquamarine" Content="Recieved" Grid.Column="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70" />
+        <Label x:Name="Label11" Background="Aquamarine" Content="Notes" Grid.Column="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="42" Width="70"/>
+        <Label FontFamily="Bauhaus 93" Background="Aquamarine" FontSize="15" Grid.ColumnSpan="2" Content="School Books &#xA;Database" Margin="6,1,38,0" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" Height="52"/>
+
+
+    </Grid>
+</Window>

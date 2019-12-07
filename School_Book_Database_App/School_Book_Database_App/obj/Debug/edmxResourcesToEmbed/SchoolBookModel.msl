@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SchoolBooksDBModelStoreContainer" CdmEntityContainer="SchoolBooksDBEntities">
+    <EntitySetMapping Name="SBInventories">
+      <EntityTypeMapping TypeName="SchoolBooksDBModel.SBInventory">
+        <MappingFragment StoreEntitySet="SBInventory">
+          <ScalarProperty Name="BookInventoryId" ColumnName="BookInventoryId" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="BookName" ColumnName="BookName" />
+          <ScalarProperty Name="ExamBoardAndLevel" ColumnName="ExamBoardAndLevel" />
+          <ScalarProperty Name="BookType" ColumnName="BookType" />
+          <ScalarProperty Name="BookSatus" ColumnName="BookSatus" />
+          <ScalarProperty Name="QuantityInStock" ColumnName="QuantityInStock" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SBOrders">
+      <EntityTypeMapping TypeName="SchoolBooksDBModel.SBOrder">
+        <MappingFragment StoreEntitySet="SBOrders">
+          <ScalarProperty Name="OrderBooksId" ColumnName="OrderBooksId" />
+          <ScalarProperty Name="BookInventoryID" ColumnName="BookInventoryID" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="BookName" ColumnName="BookName" />
+          <ScalarProperty Name="ExamBoardAndLevel" ColumnName="ExamBoardAndLevel" />
+          <ScalarProperty Name="BookType" ColumnName="BookType" />
+          <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+          <ScalarProperty Name="TotalCostOfBooks" ColumnName="TotalCostOfBooks" />
+          <ScalarProperty Name="DateOrdered" ColumnName="DateOrdered" />
+          <ScalarProperty Name="DateOrderRecieved" ColumnName="DateOrderRecieved" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Students">
+      <EntityTypeMapping TypeName="SchoolBooksDBModel.Student">
+        <MappingFragment StoreEntitySet="Students">
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="OrderBooksID" ColumnName="OrderBooksID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="SchoolYear" ColumnName="SchoolYear" />
+          <ScalarProperty Name="Subjects" ColumnName="Subjects" />
+          <ScalarProperty Name="ExamBoardAndLevel" ColumnName="ExamBoardAndLevel" />
+          <ScalarProperty Name="BooksRecieved" ColumnName="BooksRecieved" />
+          <ScalarProperty Name="BookStatus" ColumnName="BookStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
