@@ -641,8 +641,8 @@ namespace School_Book_Database_App
             }
             else 
             {
-                EditButton.Content = "Update";
-                EditButton.Background = Brushes.CadetBlue;
+                EditButton.Content = "Edit";
+                EditButton.Background = Brushes.Orange;
                 var editBrush = new BrushConverter();
 
                 // set the textboxes to ReadOnly

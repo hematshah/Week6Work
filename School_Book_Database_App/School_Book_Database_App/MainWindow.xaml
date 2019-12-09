@@ -61,7 +61,7 @@
                                 <GridViewColumn Header="ID" Width="30" DisplayMemberBinding="{Binding OrderBooksId}" />
                                 <GridViewColumn Header="InventID" Width="60" DisplayMemberBinding="{Binding BookInventoryID}" />
                                 <GridViewColumn Header="Subject" Width="90" DisplayMemberBinding="{Binding Subject}" />
-                                <GridViewColumn Header="Book Name" Width="95" DisplayMemberBinding="{Binding BookName}" />
+                                <GridViewColumn Header="Book Name" Width="200" DisplayMemberBinding="{Binding BookName}" />
                                 <GridViewColumn Header="Board(LV)" Width="120" DisplayMemberBinding="{Binding ExamBoardAndLevel}" />
                                 <GridViewColumn Header="Book Type" Width="90" DisplayMemberBinding="{Binding BookType}" />
                                 <GridViewColumn Header="Qty Ordered" Width="70" DisplayMemberBinding="{Binding QuantityOrdered}" />
@@ -82,7 +82,7 @@
                             <GridView>
                                 <GridViewColumn Header="ID" Width="30"  DisplayMemberBinding="{Binding BookInventoryId}" />
                                 <GridViewColumn Header="Subject" Width="60" DisplayMemberBinding="{Binding Subject}" />
-                                <GridViewColumn Header="Book Name" Width="100" DisplayMemberBinding="{Binding BookName}" />
+                                <GridViewColumn Header="Book Name" Width="200" DisplayMemberBinding="{Binding BookName}" />
                                 <GridViewColumn Header="ExamBoard(LV)" Width="120" DisplayMemberBinding="{Binding ExamBoardAndLevel}" />
                                 <GridViewColumn Header="Book Type" Width="90" DisplayMemberBinding="{Binding BookType}" />
                                 <GridViewColumn Header="Book Status" Width="80" DisplayMemberBinding="{Binding BookSatus}" />
@@ -107,7 +107,7 @@
         <TextBox x:Name="TextBox4" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="3"  Grid.Row="3" TextWrapping="Wrap"/>
         <TextBox x:Name="TextBox5" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="4" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
         <TextBox x:Name="TextBox6" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="5" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-        <TextBox x:Name="TextBox7" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="6"  Grid.Row="3" TextWrapping="Wrap"/>
+        <TextBox x:Name="TextBox7" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="6" Height="70"  Grid.Row="3" TextWrapping="Wrap"/>
         <TextBox x:Name="TextBox8" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="7" Height="70"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top" Visibility="Visible" IsEnabled="True" Grid.RowSpan="2"/>
         <TextBox x:Name="TextBox9" IsReadOnly="True"  Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="8" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
         <TextBox x:Name="TextBox10" IsReadOnly="True" Background="BlanchedAlmond" HorizontalContentAlignment="Center" Grid.Column="9" Height="69"  Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
