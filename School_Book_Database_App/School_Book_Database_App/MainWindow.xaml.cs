@@ -134,19 +134,22 @@ namespace School_Book_Database_App
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            
+
             if (AddButton.Content.ToString() == "Add")
             {
-                
+               
                 AddButton.Content = "Confirm";
-                TextBox8.IsEnabled = true;
-                ComboBox8.IsEnabled = false;
-                TextBox8.Visibility = Visibility.Visible;
-                ComboBox8.Visibility = Visibility.Hidden;
+                TextBox8.IsEnabled = false;
+                ComboBox8.IsEnabled = true;
+                
+                TextBox8.Visibility = Visibility.Hidden;
+                ComboBox8.Visibility = Visibility.Visible;
 
-                // Button is  enabled
+                // Add Button is enabled and the rest disabled
                 AddButton.IsEnabled = true;
-                EditButton.IsEnabled = true;
-                DeleteButton.IsEnabled = true;
+                EditButton.IsEnabled = false;
+                DeleteButton.IsEnabled = false;
 
                 // calling the selected item on the list table(s). 
                 st = (Student)listViewStudents.SelectedItem;
@@ -198,7 +201,11 @@ namespace School_Book_Database_App
                     Label10.Background = Brushes.White;
                     Label11.Background = Brushes.White;
                     #endregion
+
+                    ListviewOrder.IsEnabled = false;
+                    ListViewInventory.IsEnabled = false;
                 }
+
                 else if (sbO != null)
                 {
                     #region clearing the textboxes
@@ -218,6 +225,7 @@ namespace School_Book_Database_App
 
                     #region textboxes are not ReadOnly
 
+                    TextBox1.IsReadOnly = false;
                     TextBox2.IsReadOnly = false;
                     TextBox3.IsReadOnly = false;
                     TextBox4.IsReadOnly = false;
@@ -247,7 +255,12 @@ namespace School_Book_Database_App
 
                     #endregion
 
-                } else if (sbIn != null) 
+                    listViewStudents.IsEnabled = false;
+                    ListViewInventory.IsEnabled = false;
+
+                } 
+                
+                else if (sbIn != null) 
                 {
                     #region clearing the textboxes
                     // set boxes to clear
@@ -293,18 +306,23 @@ namespace School_Book_Database_App
                     Label10.Background = Brushes.White;
                     Label11.Background = Brushes.White;
                     #endregion
+
+                    ListviewOrder.IsEnabled = false;
+                    listViewStudents.IsEnabled = false;
                 }
 
             }
             else
             {
+                
                 AddButton.Content = "Add";
                 var brush = new BrushConverter();
 
                 TextBox8.IsEnabled = true;
                 ComboBox8.IsEnabled = false;
-                TextBox8.Visibility = Visibility.Hidden;
-                ComboBox8.Visibility = Visibility.Visible;
+                
+                TextBox8.Visibility = Visibility.Visible;
+                ComboBox8.Visibility = Visibility.Hidden;
 
                 // set the textboxes to ReadOnly
                 #region textboxes are ReadOnly
@@ -342,14 +360,15 @@ namespace School_Book_Database_App
 
                 #endregion
 
-                // add a record to students table
-                #region adding a student record into Students table
+                // add a new record to students table
+                #region adding a new student record into Students table
 
                 int.TryParse(TextBox2.Text, out int orderBooksId);
                 int.TryParse(TextBox5.Text, out int schoolYear);
-                bool.TryParse(TextBox8.Text, out bool collected);
+                
 
                 st = (Student)listViewStudents.SelectedItem;
+
                 if (st != null) 
                 {
                     var addToStudentTable = new Student()
@@ -360,7 +379,7 @@ namespace School_Book_Database_App
                         SchoolYear = schoolYear,
                         Subjects = TextBox6.Text,
                         ExamBoardAndLevel = TextBox7.Text,
-                        BooksRecieved = collected,
+                        BooksRecieved = (bool)ComboBox8.SelectedItem,
                         BookStatus = TextBox9.Text
 
                     };
@@ -373,18 +392,17 @@ namespace School_Book_Database_App
                         listViewStudents.ItemsSource = null;
                         studentTest = db.Students.ToList();
                         listViewStudents.ItemsSource = studentTest;
-                        AddButton.IsEnabled = false;
-                        EditButton.IsEnabled = false;
-                        DeleteButton.IsEnabled = false;
+                       
                     }
                     
                 }
 
                 #endregion
 
-                // add a record to BookOrder table
-                #region adding a order books record into bookOrders table
+                // add a new record to BookOrder table
+                #region adding a new order books record into bookOrders table
 
+                int.TryParse(TextBox1.Text, out int orderBooksID);
                 int.TryParse(TextBox2.Text, out int inventoryId);
                 int.TryParse(TextBox6.Text, out int quantityOrdered);
                 Decimal.TryParse(TextBox7.Text, out Decimal totalCostOfBooks);
@@ -399,13 +417,14 @@ namespace School_Book_Database_App
                 {
                     var addBookOrder = new SBOrder()
                     {
+                        OrderBooksId = orderBooksID,
                         BookInventoryID = inventoryId,
                         Subject = TextBox3.Text,
                         BookName = TextBox4.Text,
                         ExamBoardAndLevel = TextBox5.Text,
                         QuantityOrdered = quantityOrdered,
                         TotalCostOfBooks = totalCostOfBooks,
-                        BookType = TextBox8.Text,
+                        BookType = ComboBox8.Text,
                         DateOrdered = selectedDateOrdered,
                         DateOrderRecieved = selectedDateRecieved,
                         Notes = TextBox11.Text
@@ -420,17 +439,15 @@ namespace School_Book_Database_App
                         ListviewOrder.ItemsSource = null;
                         sbOrdersTest = db.SBOrders.ToList();
                         ListviewOrder.ItemsSource = sbOrdersTest;
-                        AddButton.IsEnabled = false;
-                        EditButton.IsEnabled = false;
-                        DeleteButton.IsEnabled = false;
+                        
                     }
                 }
 
 
                 #endregion
 
-                // add a record to SBinventory table
-                #region adding a record to inventory table
+                // add a new record to SBinventory table
+                #region adding a new record to inventory table
 
                 int.TryParse(TextBox6.Text, out int quantityInStock);
                 sbIn = (SBInventory)ListViewInventory.SelectedItem;
@@ -444,7 +461,7 @@ namespace School_Book_Database_App
                         BookType = TextBox5.Text,
                         QuantityInStock = quantityInStock,
                         Notes = TextBox7.Text,
-                        BookSatus = TextBox8.Text
+                        BookSatus = ComboBox8.Text
 
 
                     };
@@ -458,14 +475,22 @@ namespace School_Book_Database_App
                         ListViewInventory.ItemsSource = null;
                         sbInventoryTest = db.SBInventories.ToList();
                         ListViewInventory.ItemsSource = sbInventoryTest;
-                        AddButton.IsEnabled = false;
-                        EditButton.IsEnabled = false;
-                        DeleteButton.IsEnabled = false;
-
+                        
                     }
                 }
 
                 #endregion
+
+                // disabling all the buttons after the current operation 
+                // is executed and until another record is selected
+                AddButton.IsEnabled = false;
+                EditButton.IsEnabled = false;
+                DeleteButton.IsEnabled = false;
+
+                // enabeling all the tabs after the record has been added.
+                listViewStudents.IsEnabled = true;
+                ListviewOrder.IsEnabled = true;
+                ListViewInventory.IsEnabled = true;
 
 
             }
@@ -484,7 +509,12 @@ namespace School_Book_Database_App
                 TextBox8.Visibility = Visibility.Hidden;
                 ComboBox8.Visibility = Visibility.Visible;
 
+                // Edit Button is enabled and the other two disabled when edit button is clicked
+                AddButton.IsEnabled = false;
+                EditButton.IsEnabled = true;
+                DeleteButton.IsEnabled = false;
 
+          
                 st = (Student)listViewStudents.SelectedItem;
                 sbO = (SBOrder)ListviewOrder.SelectedItem;
                 sbIn = (SBInventory)ListViewInventory.SelectedItem;
@@ -525,7 +555,11 @@ namespace School_Book_Database_App
                     Label11.Background = Brushes.White;
                     #endregion
 
+                    ListviewOrder.IsEnabled = false;
+                    ListViewInventory.IsEnabled = false;
+
                 }
+
                 else if (sbO != null)
                 {
 
@@ -560,7 +594,11 @@ namespace School_Book_Database_App
 
                     #endregion
 
+                    listViewStudents.IsEnabled = false;
+                    ListViewInventory.IsEnabled = false;
+
                 }
+
                 else if (sbIn != null)
                 {
 
@@ -595,13 +633,16 @@ namespace School_Book_Database_App
                     Label10.Background = Brushes.White;
                     Label11.Background = Brushes.White;
                     #endregion
+
+                    ListviewOrder.IsEnabled = false;
+                    listViewStudents.IsEnabled = false;
                 }
 
             }
             else 
             {
                 EditButton.Content = "Update";
-                EditButton.Background = Brushes.LightGoldenrodYellow;
+                EditButton.Background = Brushes.CadetBlue;
                 var editBrush = new BrushConverter();
 
                 // set the textboxes to ReadOnly
@@ -640,48 +681,54 @@ namespace School_Book_Database_App
 
                 #endregion
 
-                // add a record to students table
-                #region adding a student record into Students table
+                // editing the selected record of students table
+                #region updating the selected student record to Students table
 
                 int.TryParse(TextBox2.Text, out int orderBooksId);
                 int.TryParse(TextBox5.Text, out int schoolYear);
-                bool.TryParse(TextBox8.Text, out bool collected);
+                bool.TryParse(ComboBox8.Text, out bool collected);
 
                 st = (Student)listViewStudents.SelectedItem;
                 if (st != null)
                 {
-                    var addToStudentTable = new Student()
-                    {
-                        OrderBooksID = orderBooksId,
-                        FirstName = TextBox3.Text,
-                        LastName = TextBox4.Text,
-                        SchoolYear = schoolYear,
-                        Subjects = TextBox6.Text,
-                        ExamBoardAndLevel = TextBox7.Text,
-                        BooksRecieved = collected,
-                        BookStatus = TextBox9.Text
-
-                    };
 
                     using (var db = new SchoolBooksDBEntities())
                     {
-                        db.Students.Add(addToStudentTable);
+                       var editStudents =  db.Students.Find(st.StudentID);
 
+                        
+
+                        editStudents.OrderBooksID = orderBooksId;
+                        editStudents.FirstName = TextBox3.Text;
+                        editStudents.LastName = TextBox4.Text;
+                        editStudents.SchoolYear = schoolYear;
+                        editStudents.Subjects = TextBox6.Text;
+                        editStudents.ExamBoardAndLevel = TextBox7.Text;
+                        editStudents.BookStatus = TextBox9.Text; 
+                        if (st.BooksRecieved!= null)
+                        {
+                            ComboBox8.SelectedItem = (bool)editStudents.BooksRecieved;
+                        }
+                        else
+                        {
+                            ComboBox8.SelectedItem = null;
+                        }
+
+                       
+                       // Save the changes that you have made 
                         db.SaveChanges();
                         listViewStudents.ItemsSource = null;
                         studentTest = db.Students.ToList();
                         listViewStudents.ItemsSource = studentTest;
-                        AddButton.IsEnabled = false;
-                        EditButton.IsEnabled = false;
-                        DeleteButton.IsEnabled = false;
+                        
                     }
 
                 }
 
                 #endregion
 
-                // add a record to BookOrder table
-                #region adding a order books record into bookOrders table
+                // editing the selected record of BookOrder table
+                #region updating the selected order books record to bookOrders table
 
                 int.TryParse(TextBox2.Text, out int inventoryId);
                 int.TryParse(TextBox6.Text, out int quantityOrdered);
@@ -695,77 +742,265 @@ namespace School_Book_Database_App
                 sbO = (SBOrder)ListviewOrder.SelectedItem;
                 if (sbO != null)
                 {
-                    var addBookOrder = new SBOrder()
-                    {
-                        BookInventoryID = inventoryId,
-                        Subject = TextBox3.Text,
-                        BookName = TextBox4.Text,
-                        ExamBoardAndLevel = TextBox5.Text,
-                        QuantityOrdered = quantityOrdered,
-                        TotalCostOfBooks = totalCostOfBooks,
-                        BookType = TextBox8.Text,
-                        DateOrdered = selectedDateOrdered,
-                        DateOrderRecieved = selectedDateRecieved,
-                        Notes = TextBox11.Text
-
-                    };
-
+                   
                     using (var db = new SchoolBooksDBEntities())
                     {
-                        db.SBOrders.Add(addBookOrder);
+                        var editBookOrder = db.SBOrders.Find(sbO.OrderBooksId);
 
+                        editBookOrder.BookInventoryID = inventoryId;
+                        editBookOrder.Subject = TextBox3.Text;
+                        editBookOrder.BookName = TextBox4.Text;
+                        editBookOrder.ExamBoardAndLevel = TextBox5.Text;
+                        editBookOrder.QuantityOrdered = quantityOrdered;
+                        editBookOrder.TotalCostOfBooks = totalCostOfBooks;
+                        editBookOrder.DateOrdered = selectedDateOrdered;
+                        editBookOrder.DateOrderRecieved = selectedDateRecieved;
+                        editBookOrder.Notes = TextBox11.Text;
+
+                        if (sbO.BookType != null)
+                        {
+                            ComboBox8.SelectedItem = editBookOrder.BookType;
+                        }
+                        else 
+                        {
+                            ComboBox8.SelectedItem = null;
+
+                        }
+
+                        //Saves the changes made in the Orders Table.
                         db.SaveChanges();
                         ListviewOrder.ItemsSource = null;
                         sbOrdersTest = db.SBOrders.ToList();
                         ListviewOrder.ItemsSource = sbOrdersTest;
-                        AddButton.IsEnabled = false;
-                        EditButton.IsEnabled = false;
-                        DeleteButton.IsEnabled = false;
+                        
                     }
                 }
 
 
                 #endregion
 
-                // add a record to SBinventory table
-                #region adding a record to inventory table
+                // editing the selected record to SBinventory table
+                #region updating the selected record to inventory table
 
                 int.TryParse(TextBox6.Text, out int quantityInStock);
+                
                 sbIn = (SBInventory)ListViewInventory.SelectedItem;
                 if (sbIn != null)
                 {
-                    var addBookInventory = new SBInventory()
-                    {
-                        Subject = TextBox2.Text,
-                        BookName = TextBox3.Text,
-                        ExamBoardAndLevel = TextBox4.Text,
-                        BookType = TextBox5.Text,
-                        QuantityInStock = quantityInStock,
-                        Notes = TextBox7.Text,
-                        BookSatus = TextBox8.Text
-
-
-                    };
-
-
+                   
                     using (var db = new SchoolBooksDBEntities())
                     {
-                        db.SBInventories.Add(addBookInventory);
+                        var editSBInventory = db.SBInventories.Find(sbIn.BookInventoryId);
+                       
+                        editSBInventory.Subject = TextBox2.Text;
+                        editSBInventory.BookName = TextBox3.Text;
+                        editSBInventory.ExamBoardAndLevel = TextBox4.Text;
+                        editSBInventory.BookType = TextBox5.Text;
+                        editSBInventory.QuantityInStock = quantityInStock;
+                        editSBInventory.Notes = TextBox7.Text;
+                        editSBInventory.BookSatus = ComboBox8.Text;
 
+                       
+
+                        // Saves all changes being made and displays the new changes on the list view tabs
                         db.SaveChanges();
                         ListViewInventory.ItemsSource = null;
                         sbInventoryTest = db.SBInventories.ToList();
                         ListViewInventory.ItemsSource = sbInventoryTest;
-                        AddButton.IsEnabled = false;
-                        EditButton.IsEnabled = false;
-                        DeleteButton.IsEnabled = false;
+                        
+                    }
+                }
+
+                #endregion
+
+                // disabling all the buttons after the current operation 
+                // is executed and until another record is selected
+                AddButton.IsEnabled = false;
+                EditButton.IsEnabled = false;
+                DeleteButton.IsEnabled = false;
+
+                // enabeling all the tabs after the record has been updated.
+                listViewStudents.IsEnabled = true;
+                ListviewOrder.IsEnabled = true;
+                ListViewInventory.IsEnabled = true;
+
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DeleteButton.Content.ToString() == "Delete")
+            {
+                DeleteButton.Content = "Are You Sure";
+                DeleteButton.Background = Brushes.Red;
+
+                TextBox8.IsEnabled = true;
+                ComboBox8.IsEnabled = false;
+                TextBox8.Visibility = Visibility.Visible;
+                ComboBox8.Visibility = Visibility.Hidden;
+
+                // the delete Button is enabled and all the others disabled
+                AddButton.IsEnabled = false;
+                EditButton.IsEnabled = false;
+                DeleteButton.IsEnabled = true;
+
+
+                // calling the selected item on the list table(s). 
+                st = (Student)listViewStudents.SelectedItem;
+                sbO = (SBOrder)ListviewOrder.SelectedItem;
+                sbIn = (SBInventory)ListViewInventory.SelectedItem;
+
+                if (st != null)
+                {
+                    ListviewOrder.IsEnabled = false;
+                    ListViewInventory.IsEnabled = false;
+                }
+                else if (sbO != null)
+                {
+                    listViewStudents.IsEnabled = false;
+                    ListViewInventory.IsEnabled = false;
+
+                }
+                else if (sbIn != null)
+                {
+                    ListviewOrder.IsEnabled = false;
+                    listViewStudents.IsEnabled = false;
+                }
+
+
+            }
+            else 
+            {
+                DeleteButton.Content = "Delete";
+                DeleteButton.Background = Brushes.OrangeRed;
+                var editBrush = new BrushConverter();
+
+                // set the textboxes to ReadOnly
+                #region textboxes are ReadOnly
+                TextBox1.IsReadOnly = true;
+                TextBox2.IsReadOnly = true;
+                TextBox3.IsReadOnly = true;
+                TextBox4.IsReadOnly = true;
+                TextBox5.IsReadOnly = true;
+                TextBox6.IsReadOnly = true;
+                TextBox7.IsReadOnly = true;
+                TextBox8.IsReadOnly = true;
+                ComboBox8.IsReadOnly = true;
+                TextBox9.IsReadOnly = true;
+                TextBox10.IsReadOnly = true;
+                TextBox11.IsReadOnly = true;
+                #endregion
+
+                // changing the background color back to the initial color
+                #region change background color
+                TextBox1.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox2.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox3.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox4.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox5.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox6.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox7.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox8.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                ComboBox8.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox9.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox10.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                TextBox11.Background = (Brush)editBrush.ConvertFrom("BlanchedAlmond");
+                Label9.Background = Brushes.Aquamarine;
+                Label10.Background = Brushes.Aquamarine;
+                Label11.Background = Brushes.Aquamarine;
+
+                #endregion
+
+                // calling the selected item on the list  table(s). 
+                st = (Student)listViewStudents.SelectedItem;
+                sbO = (SBOrder)ListviewOrder.SelectedItem;
+                sbIn = (SBInventory)ListViewInventory.SelectedItem;
+
+                // deleting the selected record from the students table
+                #region deleting a student record into Students table
+
+                st = (Student)listViewStudents.SelectedItem;
+                if (st != null)
+                {
+
+                    using (var db = new SchoolBooksDBEntities())
+                    {
+                        var deleteStudents = db.Students.Find(st.StudentID);
+                        db.Students.Remove(deleteStudents);
+
+                        // Save the changes that you have made 
+                        db.SaveChanges();
+                        listViewStudents.ItemsSource = null;
+                        studentTest = db.Students.ToList();
+                        listViewStudents.ItemsSource = studentTest;
+
+                        
+                    }
+
+                }
+
+                #endregion
+
+                // deleting the selected record from BookOrder table
+                #region deleting a order book record from bookOrders table
+
+                sbO = (SBOrder)ListviewOrder.SelectedItem;
+                if (sbO != null)
+                {
+
+                    using (var db = new SchoolBooksDBEntities())
+                    {
+                        var deleteBookOrder = db.SBOrders.Find(sbO.OrderBooksId);
+                        db.SBOrders.Remove(deleteBookOrder);
+
+                        //Saves the changes made in the Orders Table.
+                        db.SaveChanges();
+                        ListviewOrder.ItemsSource = null;
+                        sbOrdersTest = db.SBOrders.ToList();
+                        ListviewOrder.ItemsSource = sbOrdersTest;
+
+                    }
+                }
+
+
+                #endregion
+
+                // deleting the selected record from SBinventory table
+                #region deleting a record to inventory table
+
+                sbIn = (SBInventory)ListViewInventory.SelectedItem;
+                if (sbIn != null)
+                {
+
+                    using (var db = new SchoolBooksDBEntities())
+                    {
+                        var deletingSBInventory = db.SBInventories.Find(sbIn.BookInventoryId);
+                        db.SBInventories.Remove(deletingSBInventory);
+
+                        // saves changes and displays the latest change that was made
+                        db.SaveChanges();
+                        ListViewInventory.ItemsSource = null;
+                        sbInventoryTest = db.SBInventories.ToList();
+                        ListViewInventory.ItemsSource = sbInventoryTest;
 
                     }
                 }
 
                 #endregion
 
+                // disabling all the buttons after the current operation 
+                // is executed and until another record is selected
+                AddButton.IsEnabled = false;
+                EditButton.IsEnabled = false;
+                DeleteButton.IsEnabled = false;
+
+                // enabeling all the tabs after the record has been deleting.
+                listViewStudents.IsEnabled = true;
+                ListviewOrder.IsEnabled = true;
+                ListViewInventory.IsEnabled = true;
+
             }
+
         }
 
         private void ListViewstudentsSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -806,6 +1041,7 @@ namespace School_Book_Database_App
                 ComboBox8.ItemsSource = studentTest;
                 ComboBox8.DisplayMemberPath = "BooksRecieved";
                 ComboBox8.FontSize = 8;
+                TextBox8.Text = st.BooksRecieved.ToString();
                 TextBox9.Text = st.BookStatus;
                 #endregion
 
@@ -873,6 +1109,7 @@ namespace School_Book_Database_App
                 ComboBox8.ItemsSource = sbOrdersTest;
                 ComboBox8.DisplayMemberPath = "BookType";
                 ComboBox8.FontSize = 8;
+                TextBox8.Text = sbO.BookType;
                 TextBox9.Text = sbO.DateOrdered.ToString();
                 TextBox10.Text = sbO.DateOrderRecieved.ToString();
                 TextBox11.Text = sbO.Notes;
@@ -934,6 +1171,7 @@ namespace School_Book_Database_App
                 ComboBox8.ItemsSource = sbInventoryTest;
                 ComboBox8.DisplayMemberPath = "BookSatus";
                 ComboBox8.FontSize = 8;
+                TextBox8.Text = sbIn.BookSatus;
                 
                 #endregion
 
@@ -946,6 +1184,7 @@ namespace School_Book_Database_App
                 TextBox6.IsReadOnly = true;
                 TextBox7.IsReadOnly = true;
                 ComboBox8.IsReadOnly = true;
+                TextBox8.IsReadOnly = true;
                 TextBox9.IsReadOnly = true;
                 TextBox10.IsReadOnly = true;
                 TextBox11.IsReadOnly = true;
